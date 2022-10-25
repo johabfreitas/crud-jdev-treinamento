@@ -2,7 +2,6 @@ package br.com.johabfreitas.curso_jdev_treinamento.controllers;
 
 import java.util.List;
 
-import org.hibernate.query.criteria.internal.predicate.IsEmptyPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -101,4 +100,18 @@ public class GreetingsController {
     	
     	return new ResponseEntity<Usuario>(user, HttpStatus.OK);
     }
+    
+    @GetMapping(value = "buscarPorNome")/*mepeia a url*/
+    @ResponseBody /* Descrição da resposta*/
+    public ResponseEntity<List<Usuario>> buscarPorNome(@RequestParam(name = "name") String name){
+ 
+    	List<Usuario> usuario = usuarioRepository.buscarPorNome(name.trim().toUpperCase());
+    	if(usuario == null){
+    		return ResponseEntity.notFound().build();
+    		//return new ResponseEntity<String>("Usuário não encontrado.", HttpStatus.OK);
+    		
+    	}
+    	return new ResponseEntity<List<Usuario>>(usuario, HttpStatus.OK);
+    }
+ 
 }
